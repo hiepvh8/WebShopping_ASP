@@ -10,7 +10,7 @@
    If Not IsEmpty(Session("username")) Then
         username = Session("username")
 	Else
-	Response.Redirect("login.asp") ' Chuyển hướng đến trang đăng nhập nếu không có thông tin người dùng trong phiên
+	Response.Redirect("/login.asp") ' Chuyển hướng đến trang đăng nhập nếu không có thông tin người dùng trong phiên
     End If
 
 	Dim SQL

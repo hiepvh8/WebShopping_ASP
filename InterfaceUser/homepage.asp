@@ -1,3 +1,4 @@
+<%@ Language=VBScript %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -26,7 +27,27 @@
 
 		<!-- Custom stlylesheet -->
 		<link type="text/css" rel="stylesheet" href="../Userassets/css/style.css"/>
-       
+        
+
+<script>
+function addToCart(productId) {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      alert("Sản phẩm đã được thêm vào giỏ hàng.");
+    }
+  };
+  xmlhttp.open("POST", "add_to_cart.asp", true);
+  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xmlhttp.send("productId=" + productId);
+}
+</script>
+
+
+
+</body>
+</html>
+
     </head>
 	<body>
 
@@ -36,7 +57,7 @@
         username = Session("username")
        '' Response.Write("Chào mừng, " & username & "!")
     Else
-        Response.Redirect("login.asp") ' Chuyển hướng đến trang đăng nhập nếu không có thông tin người dùng trong phiên
+        Response.Redirect("/login.asp") ' Chuyển hướng đến trang đăng nhập nếu không có thông tin người dùng trong phiên
     End If
     %>
 	
@@ -315,7 +336,8 @@
 												</div>
 											</div>
 											<div class="add-to-cart">
-												<button type="button" onclick="addToCart(1)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+												<button type="button" onclick="addToCart(64)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+												
 											</div>
 										</div>
 										<!-- /product -->
@@ -346,7 +368,7 @@
 												</div>
 											</div>
 											<div class="add-to-cart">
-												<button type="button" onclick="addToCart(2)" class="add-to-cart-btn" ><i class="fa fa-shopping-cart"></i> add to cart</button>
+												<button type="button" onclick="addToCart(65)" class="add-to-cart-btn" ><i class="fa fa-shopping-cart"></i> add to cart</button>
 											</div>
 										</div>
 										<!-- /product -->
@@ -372,7 +394,7 @@
 												</div>
 											</div>
 											<div class="add-to-cart">
-												<button type="button" onclick="addToCart(3)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+												<button type="button" onclick="addToCart(66)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 											</div>
 										</div>
 										<!-- /product -->
@@ -401,7 +423,7 @@
 												</div>
 											</div>
 											<div class="add-to-cart">
-												<button type="button" onclick="addToCart(4)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+												<button type="button" onclick="addToCart(67)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 											</div>
 										</div>
 										<!-- /product -->
@@ -429,7 +451,7 @@
 												</div>
 											</div>
 											<div class="add-to-cart">
-												<button type="button" onclick="addToCart(5)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+												<button type="button" onclick="addToCart(68)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 											</div>
 										</div>
 										<!-- /product -->
