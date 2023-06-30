@@ -62,13 +62,13 @@
                             <div class="collapse" id="sidebarLayouts">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="javascript:void(0);" onclick="loadPage('thongkechitiet.asp')">Thống Kê Chi Tiết</a>
+                                        <a href="thongkechitiet.asp"> Thống Kê Chi Tiết</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0);" onclick="loadPage('caidatthanhtoan.asp')">Cài Đặt Thanh Toán</a>
+                                        <a href="caidatthanhtoan.asp"> Cài Đặt Thanh Toán</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0);" onclick="loadPage('doanhthu.asp')">Doanh Thu</a>
+                                        <a href="doanhthu.asp"> Doanh Thu</a>
                                     </li>
                                 </ul>
                             </div>
@@ -83,13 +83,13 @@
                             <div class="collapse" id="sidebarEcommerce">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="javascript:void(0);" onclick="loadPage('danhsachdonhang.asp')">Danh Sách Đơn Hàng</a>
+                                        <a href="danhsachdonhang.asp"> Danh Sách Đơn Hàng</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0);" onclick="loadPage('donhuy.asp')">Đơn Hủy </a>
+                                        <a href="donhuy.asp"> Đơn Hủy</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0);" onclick="loadPage('trahanghoantien.asp')">Trả Hàng Hoàn Tiền</a>
+                                        <a href="trahanghoantien.asp"> Trả Hàng Hoàn Tiền</a>
                                     </li>
                                     
                                 </ul>
@@ -105,14 +105,12 @@
                             <div class="collapse" id="sidebarProjects">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        
-                                         <a href="javascript:void(0);" onclick="loadPage('danhsachsanpham.asp')">Danh Sách Sản Phẩm</a>
+                                        <a href="danhsachsanpham.asp"> Danh Sách Sản Phẩm</a>
 
                                         </a>
                                     </li>
                                     <li>
-                                        
-                                        <a href="javascript:void(0);" onclick="loadPage('themsanpham.asp')">Thêm Sản Phẩm </a>
+                                        <a href="themsanpham.asp"> Thêm Sản Phẩm</a>
                                     </li>
                                     
                                 </ul>
@@ -128,10 +126,10 @@
                             <div class="collapse" id="sidebarBaseUI">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="javascript:void(0);" onclick="loadPage('danhsachkhachhang.asp')">Danh Sách Khách Hàng</a>
+                                        <a href="danhsachkhachhang.asp"> Danh Sách Khách Hàng</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0);" onclick="loadPage('themsanpham.asp')">Thiết Lập Khách Hàng</a>
+                                        <a href="themsanpham.asp"> Thiết Lập Khách Hàng</a>
                                     </li>
                                     
                                 </ul>
@@ -147,10 +145,10 @@
                             <div class="collapse" id="sidebarTasks">
                                 <ul class="side-nav-second-level">
                                    <li>
-                                        <a href="javascript:void(0);" onclick="loadPage('thietlaptaikhoan.asp')">Thiết Lập Tài Khoản </a>
+                                    <a href="thietlaptaikhoan.asp"> Thiết Lập Tài Khoản</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0);" onclick="loadPage('thietlapdiachi.asp')">Thiết Lập Địa Chỉ</a>
+                                        <a href="thietlapdiachi.asp"> Thiết Lập Địa Chỉ</a>
                                     </li>
                                 </ul>
                             </div>
@@ -165,10 +163,10 @@
                             <div class="collapse" id="sidebarPages">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="javascript:void(0);" onclick="loadPage('trolychat.asp')">Trợ Lý - Chat</a>
+                                        <a href="trolychat.asp"> Trợ Lý - Chat</a>
                                     </li>
                                     <li>
-                                        <a href="pages-profile-2.html">  </a>
+                                        <a href="thietlaptaikhoan.asp"> </a>
                                     </li>   
                                     
                                 </ul>
@@ -184,7 +182,7 @@
                             <div class="collapse" id="sidebarLayouts">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="javascript:void(0);" onclick="loadPage('quanlyvanchuyen.asp')">Quản Lý Vận Chuyển</a>
+                                        <a href="quanlyvanchuyen.asp"> Quản Lý Vận Chuyển</a>
                                     </li>
                                     <!-- <li>
                                         <a href="layouts-detached.html">Cài Đặt Thanh Toán</a>
@@ -314,11 +312,11 @@
                             <li class="dropdown notification-list">
                                 <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                     <span class="account-user-avatar"> 
-                                        <img src="../Adminassets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
+                                        <img src="../Adminassets/images/imagesLOGO_S.png" alt="user-image" class="rounded-circle">
                                     </span>
                                     <span>
-                                        <span class="account-user-name">Soeng Souy</span>
-                                        <span class="account-position">Founder</span>
+                                        <span class="account-user-name">ShopLution</span>
+                                        <span class="account-position">Admin</span>
                                     </span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">

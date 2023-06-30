@@ -43,6 +43,11 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
         sqlInsertUserdetail = "INSERT INTO userdetails (userid, accumulation) VALUES (" & userid & ",0)"
         ' Thực thi câu truy vấn INSERT vào bảng "userdetails"
         conn.Execute sqlInsertUserdetail
+        
+        Dim sqlInsertCart
+        sqlInsertCart = "INSERT INTO cart (userid, total) VALUES (" & userid & ",0)"
+        ' Thực thi câu truy vấn INSERT vào bảng "userdetails"
+        conn.Execute sqlInsertCart
 
     ' Đóng kết nối cơ sở dữ liệu
     conn.Close
