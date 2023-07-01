@@ -1,3 +1,139 @@
+<%
+	' Kết nối đến cơ sở dữ liệu và truy vấn thông tin người dùng
+	Dim conn
+	Set conn = Server.CreateObject("ADODB.Connection")
+	connStr = "Provider=SQLOLEDB;Data Source=VUHOANGHIEP;Initial Catalog=WebShopping;User ID=sa;Password=Zmxncbv2002"
+	conn.Open connStr
+
+	' Lấy giá trị của biến "username" từ session
+	
+   If Not IsEmpty(Session("username")) Then
+        username = Session("username")
+	Else
+	Response.Redirect("/login.asp") ' Chuyển hướng đến trang đăng nhập nếu không có thông tin người dùng trong phiên
+    End If
+
+	Dim SQL
+	SQL = "SELECT id, password FROM users WHERE username = '" & username & "';"
+
+	Dim ts
+	Set ts = conn.Execute(SQL)
+
+	' Kiểm tra và lấy giá trị id và password
+	Dim userID, userPassword
+	If Not ts.EOF Then
+	    userID = ts("id")
+	    userPassword = ts("password")
+	End If
+    
+	' Lấy ngày và giờ hiện tại
+    currentDateTime = Now()
+
+query = "SELECT * FROM cart WHERE userid = " & userID
+Set rs1 = conn.Execute(query)
+Dim cartid
+cartid = rs1("id")
+Dim PriceShip
+PriceShip = rs1("priceship")
+
+Dim temp12
+    temp12 = CDbl(PriceShip)
+
+Set rsProductCart = conn.Execute("SELECT * FROM productcart WHERE cartid = " & cartid)
+
+' Kiểm tra tham số success trong URL để hiển thị thông báo thành công
+Dim success
+success = Request.QueryString("success")
+
+' Tính tổng tiền đơn hàng
+	Dim total_Sum
+    total_Sum = 0
+
+Do Until rsProductCart.EOF
+Dim productId
+    productId = rsProductCart("productid")
+
+    Dim rss
+    Set rss = conn.Execute("SELECT * FROM products WHERE id = " & productId)
+    
+    ' Lấy giá sản phẩm từ bảng products
+    Dim productPrice
+    productPrice = rss("price")
+    Dim temp1
+    temp1 = CDbl(productPrice)
+	
+    ' Lấy số lượng từ bảng productcart
+    Dim quantity
+    quantity = rsProductCart("quantity")
+    Dim temp2
+    temp2 = CInt(quantity)
+	
+    ' Tính tổng tiền
+    total_Sum = total_Sum + (temp1 * temp2)
+    rsProductCart.MoveNext
+Loop
+
+Dim Sum 
+Sum = total_Sum+temp12
+	' Kiểm tra nếu có yêu cầu POST từ form
+	If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
+	    ' Lấy thông tin từ form
+	    Dim firstname, lastname, address, email, phone, password
+
+	    firstname = Request.Form("firstname")
+	    lastname = Request.Form("lastname")
+	    address = Request.Form("address")
+	    email = Request.Form("email")
+	    phone = Request.Form("phone")
+	    password = Request.Form("password")
+	    ' Kiểm tra xem có nhập đủ thông tin hay không
+	    If firstname <> "" And lastname <> "" And address <> "" And email <> "" And phone <> "" And password <> "" Then
+	        If password = userPassword Then
+	            ' Câu truy vấn UPDATE dữ liệu vào bảng userdetails
+	           
+				Dim sqlUpdate
+                sqlUpdate = "UPDATE userdetails SET firstname = N'" & firstname & "', lastname = N'" & lastname & "', address = N'" & address & "', email = '" & email & "', phone = '" & phone & "' WHERE userid = " & userID
+
+	            ' Thực thi câu truy vấn UPDATE
+	            conn.Execute sqlUpdate
+
+	            ' Chuyển hướng trở lại trang danh sách products với thông báo thành công
+	            Response.Redirect "myaccount.asp?success=1"
+	        Else
+	            Response.Write "<div class=""error"">Bạn đã nhập Sai mật khẩu!.</div>"
+	        End If
+	    Else
+	        ' Hiển thị thông báo lỗi nếu thông tin không hợp lệ
+	        Response.Write "<div class=""error"">Vui lòng điền đầy đủ thông tin.</div>"
+	    End If
+	End If
+
+	
+''=================================
+
+
+
+'' Mã asp hien thi userdetail 
+    Set rs = conn.Execute("SELECT * FROM userdetails WHERE userid = "& userID)
+
+' Kiểm tra tham số success trong URL để hiển thị thông báo thành công
+Dim accumulationRank
+	If Not rs.EOF Then
+	    accumulationRank = rs("accumulation")
+	    
+	End If
+    Dim temp
+
+    If accumulationRank >= 0 And accumulationRank < 1000 Then
+    temp = "Đồng"
+    ElseIf accumulationRank >= 1000 And accumulationRank < 3000 Then
+    temp = "Bạc"
+    ElseIf accumulationRank >= 3000 And accumulationRank < 10000 Then
+    temp = "Vàng"
+    Else
+    temp = "Kim Cương"
+    End If
+%>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -8,47 +144,70 @@
 
 		<title>Electro - HTML Ecommerce Template</title>
 
- 		<!-- Google font -->
- 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+		<!-- Google font -->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
- 		<!-- Bootstrap -->
- 		<link type="text/css" rel="stylesheet" href="../Userassets/css/bootstrap.min.css"/>
+		<!-- Bootstrap -->
+		<link type="text/css" rel="stylesheet" href="../Userassets/css/bootstrap.min.css"/>
 
- 		<!-- Slick -->
- 		<link type="text/css" rel="stylesheet" href="../Userassets/css/slick.css"/>
- 		<link type="text/css" rel="stylesheet" href="../Userassets/css/slick-theme.css"/>
+		<!-- Slick -->
+		<link type="text/css" rel="stylesheet" href="../Userassets/css/slick.css"/>
+		<link type="text/css" rel="stylesheet" href="../Userassets/css/slick-theme.css"/>
 
- 		<!-- nouislider -->
- 		<link type="text/css" rel="stylesheet" href="../Userassets/css/nouislider.min.css"/>
+		<!-- nouislider -->
+		<link type="text/css" rel="stylesheet" href="../Userassets/css/nouislider.min.css"/>
 
- 		<!-- Font Awesome Icon -->
- 		<link rel="stylesheet" href="../Userassets/css/font-awesome.min.css">
+		<!-- Font Awesome Icon -->
+		<link rel="stylesheet" href="../Userassets/css/font-awesome.min.css">
 
- 		<!-- Custom stlylesheet -->
- 		<link type="text/css" rel="stylesheet" href="../Userassets/css/style.css"/>
+		<!-- Custom stlylesheet -->
+		<link type="text/css" rel="stylesheet" href="../Userassets/css/style.css"/>
+        <style>
+			#paymentMethod {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+}
 
-		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
+/* Tùy chỉnh giao diện dropdown */
+select option {
+  padding: 10px;
+  font-size: 16px;
+}
 
+			</style>
     </head>
 	<body>
+
+		<%  
+    Dim username
+    If Not IsEmpty(Session("username")) Then
+        username = Session("username")
+       '' Response.Write("Chào mừng, " & username & "!")
+    Else
+        Response.Redirect("login.asp") ' Chuyển hướng đến trang đăng nhập nếu không có thông tin người dùng trong phiên
+    End If
+    %>
+	
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->
 			<div id="top-header">
 				<div class="container">
 					<ul class="header-links pull-left">
-						<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-						<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-						<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+						<li><a href="#"><i class="fa fa-phone"></i> +84912 905 950</a></li>
+						<li><a href="#"><i class="fa fa-envelope-o"></i> hiepvh8@gmail.com</a></li>
+						<li><a href="#"><i class="fa fa-map-marker"></i> 55 Giải Phóng</a></li>
 					</ul>
 					<ul class="header-links pull-right">
-						<li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-						<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+						<!-- <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li> -->
+						<li>
+							
+							<a href="myaccount.asp"> Myaccount</a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -75,12 +234,12 @@
 							<div class="header-search">
 								<form>
 									<select class="input-select">
-										<option value="0">All Categories</option>
+										<option value="0">Thể Loại</option>
 										<option value="1">Category 01</option>
 										<option value="1">Category 02</option>
 									</select>
 									<input class="input" placeholder="Search here">
-									<button class="search-btn">Search</button>
+									<button class="search-btn">Tìm Kiếm</button>
 								</form>
 							</div>
 						</div>
@@ -170,13 +329,12 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">Hot Deals</a></li>
-						<li><a href="#">Categories</a></li>
-						<li><a href="#">Laptops</a></li>
-						<li><a href="#">Smartphones</a></li>
-						<li><a href="#">Cameras</a></li>
-						<li><a href="#">Accessories</a></li>
+						<li class="active"><a href="homepage.asp"> Trang Chủ</a></li>
+						<li><a href="#">Ưu đãi</a></li>
+						<li><a href="#">Máy Tính</a></li>
+						<li><a href="#">Điện Thoại</a></li>
+						<li><a href="#">Máy Ảnh</a></li>
+						<li><a href="#">Phụ Kiện</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -186,6 +344,17 @@
 		</nav>
 		<!-- /NAVIGATION -->
 
+		<!-- SECTION -->
+		
+		<!-- /SECTION -->
+
+		<!-- SECTION -->
+		
+		<!-- /SECTION -->
+
+
+        <form method="post" action="">
+		<!-- HEADER -->	
 		<!-- BREADCRUMB -->
 		<div id="breadcrumb" class="section">
 			<!-- container -->
@@ -193,11 +362,8 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<h3 class="breadcrumb-header">Checkout</h3>
-						<ul class="breadcrumb-tree">
-							<li><a href="#">Home</a></li>
-							<li class="active">Checkout</li>
-						</ul>
+						<h3 class="breadcrumb-header">Cập nhật thông tin người dùng</h3>
+						
 					</div>
 				</div>
 				<!-- /row -->
@@ -215,174 +381,137 @@
 
 					<div class="col-md-7">
 						<!-- Billing Details -->
+                        <!-- ======================= -->
+                        
+						<!-- ======================= -->
+                        
 						<div class="billing-details">
-							<div class="section-title">
-								<h3 class="title">Billing address</h3>
-							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="first-name" placeholder="First Name">
+								<label for="paymentMethod">Phương thức thanh toán:</label>
+                            <select id="paymentMethod" name="paymentMethod">
+                                 <option value="cash">Tiền mặt</option>
+                                <option value="creditCard">Thẻ tín dụng</option>
+                                <option value="bankTransfer">Chuyển khoản ngân hàng</option>
+                            </select>
 							</div>
+
 							<div class="form-group">
-								<input class="input" type="text" name="last-name" placeholder="Last Name">
+								<input class="input" type="text" id="firstname" name="firstname" placeholder="Lưu ý cho người bán:" required>
 							</div>
+							
 							<div class="form-group">
-								<input class="input" type="email" name="email" placeholder="Email">
+								<div class="order-total">
+                                    <label>Tiền đơn hàng:     <%=total_Sum %></label>
+                                    <span id="orderTotal"></span>
+                                </div>
 							</div>
+
 							<div class="form-group">
-								<input class="input" type="text" name="address" placeholder="Address">
+							<div class="shipping-fee">
+                                <label>Phí vận chuyển: <%=rs1("priceship") %></label>
+                                <span id="shippingFee"></span>
+                            </div>
 							</div>
+
 							<div class="form-group">
-								<input class="input" type="text" name="city" placeholder="City">
+								<div class="order-total">
+                                    <label>Tổng tiền đơn hàng: <%=Sum %></label>
+                                    <span id="orderTotal"></span>
+                                </div>
 							</div>
+
 							<div class="form-group">
-								<input class="input" type="text" name="country" placeholder="Country">
+								<input class="input" type="text" id="phone" name="phone" placeholder="Phone" required>
 							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-							</div>
-							<div class="form-group">
-								<input class="input" type="tel" name="tel" placeholder="Telephone">
-							</div>
+							<p>Nhấn "Thanh Toán" đồng nghĩa với việc bạn đồng ý tuân theo điều khoản sử dụng.</p>
 							<div class="form-group">
 								<div class="input-checkbox">
-									<input type="checkbox" id="create-account">
-									<label for="create-account">
-										<span></span>
-										Create Account?
-									</label>
+									
 									<div class="caption">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-										<input class="input" type="password" name="password" placeholder="Enter Your Password">
+										<!-- <p>Nhấn "Thanh Toán" đồng nghĩa với việc bạn đồng ý tuân theo điều khoản sử dụng.</p> -->
+										<!-- <input class="input" type="password" id="password" name="password" placeholder="Enter Your Password" required> -->
 									</div>
 								</div>
 							</div>
+							<!-- ================================ -->
+							<!-- <a href="#" class="primary-btn order-submit">Cập Nhật</a> -->
+							<input class="primary-btn order-submit" type="submit" value="Thanh Toán">
 						</div>
+						
 						<!-- /Billing Details -->
 
-						<!-- Shiping Details -->
-						<div class="shiping-details">
-							<div class="section-title">
-								<h3 class="title">Shiping address</h3>
-							</div>
-							<div class="input-checkbox">
-								<input type="checkbox" id="shiping-address">
-								<label for="shiping-address">
-									<span></span>
-									Ship to a diffrent address?
-								</label>
-								<div class="caption">
-									<div class="form-group">
-										<input class="input" type="text" name="first-name" placeholder="First Name">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="last-name" placeholder="Last Name">
-									</div>
-									<div class="form-group">
-										<input class="input" type="email" name="email" placeholder="Email">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="address" placeholder="Address">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="city" placeholder="City">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="country" placeholder="Country">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-									</div>
-									<div class="form-group">
-										<input class="input" type="tel" name="tel" placeholder="Telephone">
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- /Shiping Details -->
-
-						<!-- Order notes -->
-						<div class="order-notes">
-							<textarea class="input" placeholder="Order Notes"></textarea>
-						</div>
-						<!-- /Order notes -->
 					</div>
 
 					<!-- Order Details -->
 					<div class="col-md-5 order-details">
 						<div class="section-title text-center">
-							<h3 class="title">Your Order</h3>
+							<h3 class="title">Thông Tin Mặc Định</h3>
 						</div>
+						
 						<div class="order-summary">
-							<div class="order-col">
+							<!-- <div class="order-col">
 								<div><strong>PRODUCT</strong></div>
 								<div><strong>TOTAL</strong></div>
-							</div>
+							</div> -->
 							<div class="order-products">
 								<div class="order-col">
-									<div>1x Product Name Goes Here</div>
-									<div>$980.00</div>
+									<div>Firstname:</div>
+									<div><%= rs("firstname") %></div>
 								</div>
 								<div class="order-col">
-									<div>2x Product Name Goes Here</div>
-									<div>$980.00</div>
+									<div>Lastname:</div>
+									<div><%= rs("lastname") %></div>
+								</div>
+								<div class="order-col">
+									<div>Address:</div>
+									<div><%= rs("address") %></div>
+								</div>
+								<div class="order-col">
+									<div>Email:</div>
+									<div><%= rs("email") %></div>
+								</div>
+								<div class="order-col">
+									<div>Phone:</div>
+									<div><%= rs("phone") %></div>
+								</div>
+								<div class="order-col">
+									<div>Accumulation:</div>
+									<div><%= rs("accumulation") %></div>
 								</div>
 							</div>
 							<div class="order-col">
-								<div>Shiping</div>
-								<div><strong>FREE</strong></div>
-							</div>
-							<div class="order-col">
-								<div><strong>TOTAL</strong></div>
-								<div><strong class="order-total">$2940.00</strong></div>
-							</div>
-						</div>
-						<div class="payment-method">
-							<div class="input-radio">
-								<input type="radio" name="payment" id="payment-1">
-								<label for="payment-1">
-									<span></span>
-									Direct Bank Transfer
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
-							</div>
-							<div class="input-radio">
-								<input type="radio" name="payment" id="payment-2">
-								<label for="payment-2">
-									<span></span>
-									Cheque Payment
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
-							</div>
-							<div class="input-radio">
-								<input type="radio" name="payment" id="payment-3">
-								<label for="payment-3">
-									<span></span>
-									Paypal System
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
+								<div>Rank:</div>
+								<div><strong>
+                                    <%
+									
+                                        Response.Write "" & temp
+                                    %>
+								</strong></div>
 							</div>
 						</div>
-						<div class="input-checkbox">
-							<input type="checkbox" id="terms">
-							<label for="terms">
-								<span></span>
-								I've read and accept the <a href="#">terms & conditions</a>
-							</label>
-						</div>
-						<a href="#" class="primary-btn order-submit">Place order</a>
+		                
+						<!-- =============== -->
+						
 					</div>
+					
 					<!-- /Order Details -->
 				</div>
 				<!-- /row -->
 			</div>
 			<!-- /container -->
 		</div>
+
+		
+
+    </form>
+
+  
+		<!-- HOT DEAL SECTION -->
+		
+		<!-- /SECTION -->
+
+		<!-- SECTION -->
+		
 		<!-- /SECTION -->
 
 		<!-- NEWSLETTER -->
@@ -393,10 +522,10 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="newsletter">
-							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<p>Theo dõi để : <strong>Nhận thông báo ưu đãi! </strong></p>
 							<form>
-								<input class="input" type="email" placeholder="Enter Your Email">
-								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+								<input class="input" type="email" placeholder="Nhập email">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Đăng Ký</button>
 							</form>
 							<ul class="newsletter-follow">
 								<li>
@@ -432,11 +561,11 @@
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
 								<h3 class="footer-title">About Us</h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+								
 								<ul class="footer-links">
-									<li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
-									<li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-									<li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+									<li><a href="#"><i class="fa fa-map-marker"></i>55 Giải Phóng</a></li>
+									<li><a href="#"><i class="fa fa-phone"></i>+84912 905 950</a></li>
+									<li><a href="#"><i class="fa fa-envelope-o"></i>hiepvh8@gmail.com</a></li>
 								</ul>
 							</div>
 						</div>
@@ -445,11 +574,11 @@
 							<div class="footer">
 								<h3 class="footer-title">Categories</h3>
 								<ul class="footer-links">
-									<li><a href="#">Hot deals</a></li>
-									<li><a href="#">Laptops</a></li>
-									<li><a href="#">Smartphones</a></li>
-									<li><a href="#">Cameras</a></li>
-									<li><a href="#">Accessories</a></li>
+									<li><a href="#">Ưu Đãi</a></li>
+									<li><a href="#">Máy Tính</a></li>
+									<li><a href="#">Điện Thoại</a></li>
+									<li><a href="#">Máy Ảnh</a></li>
+									<li><a href="#">Phụ Kiện</a></li>
 								</ul>
 							</div>
 						</div>
@@ -458,26 +587,22 @@
 
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">Information</h3>
+								<h3 class="footer-title">Thông Tin</h3>
 								<ul class="footer-links">
-									<li><a href="#">About Us</a></li>
-									<li><a href="#">Contact Us</a></li>
-									<li><a href="#">Privacy Policy</a></li>
-									<li><a href="#">Orders and Returns</a></li>
-									<li><a href="#">Terms & Conditions</a></li>
+									<li><a href="#">Người Dùng</a></li>
+									<li><a href="#">Hà Nội</a></li>
+									<li><a href="#">Đơn Trả</a></li>
 								</ul>
 							</div>
 						</div>
 
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">Service</h3>
+								<h3 class="footer-title">Dịch vụ</h3>
 								<ul class="footer-links">
-									<li><a href="#">My Account</a></li>
-									<li><a href="#">View Cart</a></li>
-									<li><a href="#">Wishlist</a></li>
-									<li><a href="#">Track My Order</a></li>
-									<li><a href="#">Help</a></li>
+									<li><a href="javascript:void(0);" onclick="loadPage('myaccount.asp')">My Account</a></li>
+									<li><a href="#">Xem Giỏ Hàng</a></li>
+									<li><a href="#">Hỗ Trợ</a></li>
 								</ul>
 							</div>
 						</div>
@@ -524,6 +649,41 @@
 		<script src="../Userassets/js/nouislider.min.js"></script>
 		<script src="../Userassets/js/jquery.zoom.min.js"></script>
 		<script src="../Userassets/js/main.js"></script>
+		<script src="../Userassets/js/script.js"></script>
 
 	</body>
 </html>
+<!-- ============================================================ -->
+<!-- Mã asp update userdetail -->
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

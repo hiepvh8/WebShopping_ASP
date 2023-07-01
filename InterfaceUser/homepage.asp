@@ -1,4 +1,6 @@
-<%@ Language=VBScript %>
+
+<%@ Language="VBScript" CodePage=65001 %>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -27,21 +29,126 @@
 
 		<!-- Custom stlylesheet -->
 		<link type="text/css" rel="stylesheet" href="../Userassets/css/style.css"/>
-        
+        <style>
+    .product-name {
+        font-family: "Arial", sans-serif;
+        /* Thay đổi font chữ tại đây */
+    }
+	
+
+
+</style>
+
+
+
+
 
 <script>
-function addToCart(productId) {
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      alert("Sản phẩm đã được thêm vào giỏ hàng.");
+function deleteProduct(productId) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "delete_product.asp", true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        // Xử lý thành công
+        console.log("Xóa sản phẩm thành công");
+        showMessage("Xóa sản phẩm thành công");
+        // Thực hiện các hành động khác (cập nhật giao diện, v.v.)
+		window.location.reload();
+      } else {
+        // Xử lý lỗi
+        console.error("Lỗi khi xóa sản phẩm");
+        showMessage("Lỗi khi xóa sản phẩm");
+      }
     }
   };
-  xmlhttp.open("POST", "add_to_cart.asp", true);
-  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xmlhttp.send("productId=" + productId);
+  xhr.send("productId=" + productId);
 }
+
+function showMessage(message) {
+  var alertBox = document.createElement("div");
+  alertBox.style.position = "fixed";
+  alertBox.style.top = "10px";
+  alertBox.style.right = "10px";
+  alertBox.style.padding = "10px";
+  alertBox.style.background = "lightgray";
+  alertBox.style.border = "1px solid gray";
+  alertBox.style.borderRadius = "5px";
+  alertBox.textContent = message;
+  document.body.appendChild(alertBox);
+
+  setTimeout(function() {
+    alertBox.parentNode.removeChild(alertBox);
+  }, 3000); // Thời gian hiển thị thông báo (3 giây)
+}
+
 </script>
+
+<style>
+  .notification {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #333;
+    font-family: Arial, sans-serif;
+  }
+
+  .notification.success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+  }
+
+  .notification.error {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+  }
+</style>
+
+<script>
+  function addToCart(productId) {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var message = "Sản phẩm đã được thêm vào giỏ hàng.";
+        showMessageAndClose(message, "success");
+        // Tiếp tục thực hiện các tác vụ khác sau khi thông báo được đóng
+        // ...
+		window.location.reload();
+      }
+    };
+    xmlhttp.open("POST", "add_to_cart.asp", true);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.send("productId=" + productId);
+  }
+
+  function showMessageAndClose(message, type) {
+    var alertTimeout = 3000; // Thời gian hiển thị thông báo (3 giây)
+    var notification = document.createElement("div");
+    notification.classList.add("notification");
+
+    if (type === "success") {
+      notification.classList.add("success");
+    } else if (type === "error") {
+      notification.classList.add("error");
+    }
+
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(function() {
+      notification.parentNode.removeChild(notification);
+    }, alertTimeout);
+  }
+</script>
+
 
 
 
@@ -136,37 +243,111 @@ function addToCart(productId) {
 									</a>
 									<div class="cart-dropdown">
 										<div class="cart-list">
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="./img/product01.png" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
+											
 
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="./img/product02.png" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
-										</div>
-										<div class="cart-summary">
-											<small>3 Item(s) selected</small>
-											<h5>SUBTOTAL: $2940.00</h5>
-										</div>
-										<div class="cart-btns">
-											<a href="#">View Cart</a>
-											<a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
-										</div>
-									</div>
+<%
+' Kết nối đến cơ sở dữ liệu và truy vấn thông tin người dùng
+Set conn = Server.CreateObject("ADODB.Connection")
+connStr = "Provider=SQLOLEDB;Data Source=VUHOANGHIEP;Initial Catalog=WebShopping;User ID=sa;Password=Zmxncbv2002"
+conn.Open connStr
+
+' Lấy giá trị của biến "username" từ session
+	
+   If Not IsEmpty(Session("username")) Then
+        username = Session("username")
+	Else
+	Response.Redirect("/login.asp") ' Chuyển hướng đến trang đăng nhập nếu không có thông tin người dùng trong phiên
+    End If
+
+	Dim SQL
+	SQL = "SELECT id, password FROM users WHERE username = '" & username & "';"
+
+	Dim ts
+	Set ts = conn.Execute(SQL)
+
+	' Kiểm tra và lấy giá trị id và password
+	Dim userID, userPassword
+	If Not ts.EOF Then
+	    userID = ts("id")
+	    userPassword = ts("password")
+	End If
+
+query = "SELECT * FROM cart WHERE userid = " & userID
+Set rs1 = conn.Execute(query)
+Dim cartid
+cartid = rs1("id")
+rs1.Close
+
+Set rs = conn.Execute("SELECT * FROM productcart WHERE cartid = " & cartid)
+
+' Kiểm tra tham số success trong URL để hiển thị thông báo thành công
+Dim success
+success = Request.QueryString("success")
+
+' Tạo biến để tính tổng tiền
+Dim totalAmount
+totalAmount = 0
+%>
+
+<% If success = "1" Then %>
+    <div class="success">Thành Công</div>
+<% End If %> 
+
+<% 
+Do Until rs.EOF
+    Dim productId
+    productId = rs("productid")
+
+    Dim rss
+    Set rss = conn.Execute("SELECT * FROM products WHERE id = " & productId)
+
+    ' Lấy giá sản phẩm từ bảng products
+    Dim productPrice
+    productPrice = rss("price")
+    Dim temp1
+    temp1 = CDbl(productPrice)
+	
+    ' Lấy số lượng từ bảng productcart
+    Dim quantity
+    quantity = rs("quantity")
+    Dim temp2
+    temp2 = CInt(quantity)
+	
+    ' Tính tổng tiền
+    totalAmount = totalAmount + (temp1 * temp2)
+%>
+    <div class="product-widget">
+        <div class="product-img">
+            <img src="./img/product02.png" alt="">
+        </div>
+        <div class="product-body">
+            <h3 class="product-name"><a href="#"><%= rss("productname") %></a></h3>
+            <h4 class="product-price"><span class="qty"><%= rs("quantity") %></span><%= rss("productname") %></h4>
+        </div>
+        <button class="delete" onclick="deleteProduct(<%= productId %>)"><i class="fa fa-close"></i></button>
+    </div>
+
+<% 
+    rss.Close
+    rs.MoveNext
+Loop
+
+rs.Close
+Set rs = Nothing
+conn.Close
+Set conn = Nothing
+%>
+
+<div class="cart-summary">
+    <small></small>
+    <h5>Tổng Tiền: <%= totalAmount %></h5>
+</div>
+<div class="cart-btns">
+    <a href="#">View Cart</a>
+	<a href="checkout.asp"> Thanh Toán<i class="fa fa-arrow-circle-right"></i></a>
+</div>
+</div>
+
 								</div>
 								<!-- /Cart -->
 

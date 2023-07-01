@@ -438,7 +438,7 @@
     </div>
 </div> 
 
-                        <%
+<%
 ' Kết nối đến cơ sở dữ liệu và truy vấn thông tin người dùng
 Set conn = Server.CreateObject("ADODB.Connection")
 connStr = "Provider=SQLOLEDB;Data Source=VUHOANGHIEP;Initial Catalog=WebShopping;User ID=sa;Password=Zmxncbv2002"
