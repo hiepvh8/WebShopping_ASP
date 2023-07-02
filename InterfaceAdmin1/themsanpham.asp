@@ -22,6 +22,7 @@
 
     <body class="loading" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
         <!-- Begin page -->
+        <form method="post" action="" >
         <div class="wrapper">
             <!-- ========== Left Sidebar Start ========== -->
             <div class="leftside-menu">
@@ -50,29 +51,6 @@
 
                     <!--- Sidemenu -->
                     <ul class="side-nav">
-
-                        <li class="side-nav-title side-nav-item">Navigation</li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
-                                <i class="uil-window"></i>
-                                <span> Thống Kê </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarLayouts">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="thongkechitiet.asp"> Thống Kê Chi Tiết</a>
-                                    </li>
-                                    <li>
-                                        <a href="caidatthanhtoan.asp"> Cài Đặt Thanh Toán</a>
-                                    </li>
-                                    <li>
-                                        <a href="doanhthu.asp"> Doanh Thu</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
 
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
@@ -131,43 +109,6 @@
                                     <li>
                                         <a href="themsanpham.asp"> Thiết Lập Khách Hàng</a>
                                     </li>
-                                    
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks" class="side-nav-link">
-                                <i class="uil-clipboard-alt"></i>
-                                <span> Quản Lý Hệ Thống </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarTasks">
-                                <ul class="side-nav-second-level">
-                                   <li>
-                                    <a href="thietlaptaikhoan.asp"> Thiết Lập Tài Khoản</a>
-                                    </li>
-                                    <li>
-                                        <a href="thietlapdiachi.asp"> Thiết Lập Địa Chỉ</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
-                                <i class="uil-copy-alt"></i>
-                                <span>  Chăm Sóc KH </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarPages">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="trolychat.asp"> Trợ Lý - Chat</a>
-                                    </li>
-                                    <li>
-                                        <a href="thietlaptaikhoan.asp"> </a>
-                                    </li>   
                                     
                                 </ul>
                             </div>
@@ -423,73 +364,75 @@
                     <div 
                     id="right-body" class="container-fluid">
                         
-                       <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">AdminStaff</a></li>
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Quản Lý Sản Phẩm</a></li>
-                    <li class="breadcrumb-item active">Danh Sách Sản Phẩm</li>
+                    <li class="breadcrumb-item active">Thêm Sản Phẩm</li>
                 </ol>
             </div>
-            <h4 class="page-title">Danh Sách Sản Phẩm</h4>
+            <h4 class="page-title">Thêm Sản Phẩm</h4>
         </div>
     </div>
-</div> 
+</div>
+                       
+                        <h1>Add Product</h1>
 
-<%
-' Kết nối đến cơ sở dữ liệu và truy vấn thông tin người dùng
-Set conn = Server.CreateObject("ADODB.Connection")
-connStr = "Provider=SQLOLEDB;Data Source=VUHOANGHIEP;Initial Catalog=WebShopping;User ID=sa;Password=Zmxncbv2002"
-conn.Open connStr
+    <form method="post" action="" >
+        <!-- Các trường thông tin sản phẩm -->
 
-Set rs = conn.Execute("SELECT * FROM products")
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="productname" class="form-label">Productname</label>
+                    <input class="form-control" type="text" placeholder="Nhập tên sản phẩm" id="productname" name="productname" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="fisrtday" class="form-label">Fisrtday</label>
+                    <input class="form-control" type="date" placeholder="Enter your last name" id="fisrtday" name="fisrtday" required>
+                </div>
+            </div>
+        </div> <!-- end row -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input class="form-control" type="text" placeholder="Nhập giá sản phẩm" id="price" name="price" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="discount" class="form-label">Discount</label>
+                    <input class="form-control" type="text" placeholder="Giảm giá" id="discount" name="discount" required>
+                </div>
+            </div>
+        </div> <!-- end row -->
+        <div class="row">
+            <div class="col-12">
+                <div class="mb-3 mt-3">
+                    <label for="introduce" class="form-label">Introduce</label>
+                    <textarea class="form-control" type="text" id="introduce" rows="3" placeholder="Nhập thông tin sản phẩm" name="introduce" required></textarea>
+                    
+                </div>
+            </div>
+        </div> <!-- end row -->
 
-' Kiểm tra tham số success trong URL để hiển thị thông báo thành công
-Dim success
-success = Request.QueryString("success")
-%>
-
-
-
-<% If success = "1" Then %>
-        <div class="success">Thành Công</div>
-    <% End If %> 
-
-<table class="table table-striped table-centered mb-0">
-    <thead>
-        <tr>
-            <th>productname</th>
-            <th>fisrtday</th>
-            <th>price</th>
-            <th>introduce</th>
-            <th>discount</th>
-            <th>Action</th>
-            
-        </tr>
-    </thead>
-    <% Do Until rs.EOF %>
-            <tr>
-                <td class="table-user"><%= rs("productname") %></td>
-                <td class="table-user"><%= rs("fisrtday") %></td>
-                <td class="table-user"><%= rs("price") %></td>
-                <td class="table-user"><%= rs("introduce") %></td>
-                <td class="table-user"><%= rs("discount") %></td>
-                <td class="table-action">
-                    <a class="edit-btn" href="editsanpham.asp"> Edit</a>
-                    <div></div>
-                    <a class="delete-btn" href="deletesanpham.asp"> Delete</a>
-                </td>
-            </tr>
-            <% rs.MoveNext
-        Loop
-        rs.Close
-        Set rs = Nothing
-        conn.Close
-        Set conn = Nothing
-        %>
-</table>
+        <div class="row mt-4">
+            <div class="col-sm-6">
+                <!-- Chọn ảnh sản phẩm -->
+                <!-- <input type="file" name="photo" accept="image/*" required><br> -->
+            </div> <!-- end col -->
+            <div class="col-sm-6">
+                <div class="text-sm-end">
+                    <input class="btn btn-danger" type="submit" value="Lưu">
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+    </form>
 
                     </div> <!-- container -->
 
@@ -646,11 +589,50 @@ function deleteSanpham(id) {
         <!-- demo app -->
         <script src="../Adminassets/js/pages/demo.dashboard-crm.js"></script>
         <!-- end demo js-->
+
     </body>
 </html>
+<%
+' Kết nối đến cơ sở dữ liệu và truy vấn thông tin người dùng
+Set conn = Server.CreateObject("ADODB.Connection")
+connStr = "Provider=SQLOLEDB;Data Source=VUHOANGHIEP;Initial Catalog=WebShopping;User ID=sa;Password=Zmxncbv2002"
+conn.Open connStr
 
+' Kiểm tra nếu có yêu cầu POST từ form
+If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
+    ' Lấy thông tin từ form
+    Dim  productname, fisrtday, price, introduce, discount
+
+    productname = Request.Form("productname")
+    fisrtday = Request.Form("fisrtday")
+    price = Request.Form("price")
+    introduce = Request.Form("introduce")
+    discount = Request.Form("discount")
+    
+    ' Kiểm tra xem có nhập đủ thông tin hay không
+    If productname <> "" And fisrtday <> "" And price <> "" And introduce <> "" And discount <> "" Then
+        ' Câu truy vấn INSERT dữ liệu vào bảng tickets
+        Dim sqlInsert
+        sqlInsert = "INSERT INTO products (productname, fisrtday, price, introduce, discount) VALUES ('" & productname & "', '" & fisrtday & "', " & price & ", '" & introduce & "', " & discount & ")"
+        
+        ' Thực thi câu truy vấn INSERT
+        conn.Execute sqlInsert
+        
+        ' Chuyển hướng trở lại trang danh sách tickets với thông báo thành công
+        Response.Redirect "danhsachsanpham.asp?success=1"
+    Else
+        ' Hiển thị thông báo lỗi nếu thông tin không hợp lệ
+        Response.Write "<div class=""error"">Vui lòng điền đầy đủ thông tin.</div>"
+    End If
+End If
+
+conn.Close
+Set conn = Nothing
+%>
 
   
+
+
 
 
 

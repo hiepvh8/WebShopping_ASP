@@ -104,29 +104,6 @@
                     <!--- Sidemenu -->
                     <ul class="side-nav">
 
-                        <li class="side-nav-title side-nav-item">Navigation</li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
-                                <i class="uil-window"></i>
-                                <span> Thống Kê </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarLayouts">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="thongkechitiet.asp"> Thống Kê Chi Tiết</a>
-                                    </li>
-                                    <li>
-                                        <a href="caidatthanhtoan.asp"> Cài Đặt Thanh Toán</a>
-                                    </li>
-                                    <li>
-                                        <a href="doanhthu.asp"> Doanh Thu</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
                                 <i class="uil-store"></i>
@@ -184,43 +161,6 @@
                                     <li>
                                         <a href="themsanpham.asp"> Thiết Lập Khách Hàng</a>
                                     </li>
-                                    
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks" class="side-nav-link">
-                                <i class="uil-clipboard-alt"></i>
-                                <span> Quản Lý Hệ Thống </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarTasks">
-                                <ul class="side-nav-second-level">
-                                   <li>
-                                    <a href="thietlaptaikhoan.asp"> Thiết Lập Tài Khoản</a>
-                                    </li>
-                                    <li>
-                                        <a href="thietlapdiachi.asp"> Thiết Lập Địa Chỉ</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
-                                <i class="uil-copy-alt"></i>
-                                <span>  Chăm Sóc KH </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarPages">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="trolychat.asp"> Trợ Lý - Chat</a>
-                                    </li>
-                                    <li>
-                                        <a href="thietlaptaikhoan.asp"> </a>
-                                    </li>   
                                     
                                 </ul>
                             </div>
@@ -481,49 +421,102 @@
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">AdminStaff</a></li>
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Quản Lý Sản Phẩm</a></li>
-                    <li class="breadcrumb-item active">Delete Sản Phẩm</li>
+                    <li class="breadcrumb-item active">Edit Sản Phẩm</li>
                 </ol>
             </div>
-            <h4 class="page-title">Delete Sản Phẩm</h4>
+            <h4 class="page-title">Edit Sản Phẩm</h4>
         </div>
     </div>
 </div> 
 <%
-' Kết nối đến cơ sở dữ liệu và truy vấn thông tin Ticket
+' Kết nối đến cơ sở dữ liệu và truy vấn thông tin người dùng
 Set conn = Server.CreateObject("ADODB.Connection")
 connStr = "Provider=SQLOLEDB;Data Source=VUHOANGHIEP;Initial Catalog=WebShopping;User ID=sa;Password=Zmxncbv2002"
 conn.Open connStr
 
-' Lấy giá trị id từ URL
-Dim id
-id = Request.QueryString("id")
+' Kiểm tra nếu có yêu cầu POST từ form
+If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
+    ' Lấy thông tin từ form
+    Dim id, productname, fisrtday, price, introduce, discount
 
-' Kiểm tra nếu không có id, chuyển hướng về trang listTicket.asp
-If id = "" Then
-Response.Redirect "admin.asp"
+    id = Request.Form("id")
+    productname = Request.Form("productname")
+    fisrtday = Request.Form("fisrtday")
+    price = Request.Form("price")
+    introduce = Request.Form("introduce")
+    discount = Request.Form("discount")
+    
+    ' Kiểm tra xem có nhập đủ thông tin hay không
+    If productname <> "" And fisrtday <> "" And price <> "" And introduce <> "" And discount <> "" Then
+        ' Câu truy vấn UPDATE dữ liệu vào bảng products
+        Dim sqlUpdate
+        sqlUpdate = "UPDATE products SET productname = '" & productname & "', fisrtday = '" & fisrtday & "', price = " & price & ", introduce = '" & introduce & "', discount = " & discount & " WHERE id = " & id
+        
+        ' Thực thi câu truy vấn UPDATE
+        conn.Execute sqlUpdate
+        
+        ' Chuyển hướng trở lại trang danh sách products với thông báo thành công
+        Response.Redirect "danhsachsanpham.asp?success=1"
+    Else
+        ' Hiển thị thông báo lỗi nếu thông tin không hợp lệ
+        Response.Write "<div class=""error"">Vui lòng điền đầy đủ thông tin.</div>"
+    End If
 End If
 
-' Kiểm tra xem người dùng có tồn tại trong cơ sở dữ liệu hay không
-Set rs = conn.Execute("SELECT * FROM products WHERE id = " & id)
-
-' Kiểm tra nếu không tìm thấy người dùng, chuyển hướng về trang listTicket.asp
-If rs.EOF Then
-Response.Redirect "admin.asp"
+' Kiểm tra nếu có yêu cầu GET và có tham số id
+If Request.ServerVariables("REQUEST_METHOD") = "GET" And Request.QueryString("id") <> "" Then
+    ' Lấy thông tin về product từ cơ sở dữ liệu dựa trên id
+    Dim productID, productRS
+    productID = Request.QueryString("id")
+    Set productRS = conn.Execute("SELECT * FROM products WHERE id = " & productID)
+    
+    ' Kiểm tra nếu product tồn tại
+    If Not productRS.EOF Then
+        ' Lấy thông tin từ recordset
+        Dim productProductname, productFisrtday, productPrice, productIntroduce, productDiscount
+        
+        productProductname = productRS("productname")
+        productFisrtday = FormatDateTime(productRS("fisrtday"), 2)
+        productPrice = productRS("price")
+        productIntroduce = productRS("introduce")
+        productDiscount = productRS("discount")
+    Else
+        ' Hiển thị thông báo lỗi nếu product không tồn tại
+        Response.Write "<div class=""error"">Product không tồn tại.</div>"
+    End If
+    
+    ' Đóng recordset
+    productRS.Close
+    Set productRS = Nothing
 End If
 
-' Xóa người dùng từ cơ sở dữ liệu
-conn.Execute "DELETE FROM products WHERE id = " & id
-
-rs.Close
+' Đóng kết nối đến cơ sở dữ liệu
 conn.Close
-Set rs = Nothing
 Set conn = Nothing
-
-' Chuyển hướng về trang listTicket.asp và gửi tham số success để hiển thị thông báo xóa thành công
-Response.Redirect "admin.asp?success=1"
 %>
+ <h1>Edit Products</h1>
+    <form method="post" action="">
+        <input type="hidden" name="id" value="<%= productID %>">
+
+        <label for="productname">Productname:</label>
+        <input type="text" id="productname" name="productname" value="<%= productProductname %>" required>
+
+        <label for="fisrtday">Fisrtday:</label>
+        <input type="date" id="fisrtday" name="fisrtday" value="<%= productFisrtday %>" required>
+
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price" value="<%= productPrice %>" required>
+
+        <label for="introduce">Introduce:</label>
+        <input type="text" id="introduce" name="introduce" value="<%= productIntroduce %>" required>
+
+        <label for="discount">Discount:</label>
+        <input type="text" id="discount" name="discount" value="<%= productDiscount %>" required>
+
+        <input type="submit" value="Lưu">
+    </form>
                     </div> <!-- container -->
 
                 </div> <!-- content -->
@@ -694,12 +687,3 @@ function deleteSanpham(id) {
 
 
    
-
-
-
-
-
-
-
-
-

@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -22,7 +24,6 @@
 
     <body class="loading" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
         <!-- Begin page -->
-        <form method="post" action="" >
         <div class="wrapper">
             <!-- ========== Left Sidebar Start ========== -->
             <div class="leftside-menu">
@@ -421,78 +422,68 @@
                     <!-- end Topbar -->
 
                     <!-- Start Content-->
-                    <div 
-                    id="right-body" class="container-fluid">
-                        
+                    <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Quản Lý Sản Phẩm</a></li>
-                    <li class="breadcrumb-item active">Thêm Sản Phẩm</li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">AdminStaff</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Quản Lý Khách Hàng</a></li>
+                    <li class="breadcrumb-item active">Danh Sách Khách Hàng</li>
                 </ol>
             </div>
-            <h4 class="page-title">Thêm Sản Phẩm</h4>
+            <h4 class="page-title">Danh Sách Khách Hàng</h4>
         </div>
     </div>
-</div>
-                       
-                        <h1>Add Product</h1>
+</div>  
 
-    <!-- <form method="post" action="" > -->
-        <!-- Các trường thông tin sản phẩm -->
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="productname" class="form-label">Productname</label>
-                    <input class="form-control" type="text" placeholder="Nhập tên sản phẩm" id="productname" name="productname" required>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="fisrtday" class="form-label">Fisrtday</label>
-                    <input class="form-control" type="date" placeholder="Enter your last name" id="fisrtday" name="fisrtday" required>
-                </div>
-            </div>
-        </div> <!-- end row -->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="price" class="form-label">Price</label>
-                    <input class="form-control" type="text" placeholder="Nhập giá sản phẩm" id="price" name="price" required>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="discount" class="form-label">Discount</label>
-                    <input class="form-control" type="text" placeholder="Giảm giá" id="discount" name="discount" required>
-                </div>
-            </div>
-        </div> <!-- end row -->
-        <div class="row">
-            <div class="col-12">
-                <div class="mb-3 mt-3">
-                    <label for="introduce" class="form-label">Introduce</label>
-                    <textarea class="form-control" type="text" id="introduce" rows="3" placeholder="Nhập thông tin sản phẩm" name="introduce" required></textarea>
-                    
-                </div>
-            </div>
-        </div> <!-- end row -->
+<%
+' Kết nối đến cơ sở dữ liệu và truy vấn thông tin người dùng
+Set conn = Server.CreateObject("ADODB.Connection")
+connStr = "Provider=SQLOLEDB;Data Source=VUHOANGHIEP;Initial Catalog=WebShopping;User ID=sa;Password=Zmxncbv2002"
+conn.Open connStr
 
-        <div class="row mt-4">
-            <div class="col-sm-6">
-                <!-- Chọn ảnh sản phẩm -->
-                <!-- <input type="file" name="photo" accept="image/*" required><br> -->
-            </div> <!-- end col -->
-            <div class="col-sm-6">
-                <div class="text-sm-end">
-                    <input class="btn btn-danger" type="submit" value="Lưu">
-                </div>
-            </div> <!-- end col -->
-        </div> <!-- end row -->
-    <!-- </form> -->
+Set rs = conn.Execute("SELECT * FROM userdetails")
+
+' Kiểm tra tham số success trong URL để hiển thị thông báo thành công
+Dim success
+success = Request.QueryString("success")
+%>
+
+
+
+<% If success = "1" Then %>
+        <div class="success">Thành Công</div>
+    <% End If %> 
+
+<table id="basic-datatable" class="table dt-responsive nowrap w-100">
+    <thead>
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Phone</th>
+            
+        </tr>
+    </thead>
+    <% Do Until rs.EOF %>
+            <tr>
+                <td class="table-user"><%= rs("firstname") %></td>
+                <td class="table-user"><%= rs("lastname") %></td>
+                <td class="table-user"><%= rs("address") %></td>
+                <td class="table-user"><%= rs("email") %></td>
+                <td class="table-user"><%= rs("phone") %></td>
+            </tr>
+            <% rs.MoveNext
+        Loop
+        rs.Close
+        Set rs = Nothing
+        conn.Close
+        Set conn = Nothing
+        %>
+</table>
 
                     </div> <!-- container -->
 
@@ -649,14 +640,11 @@ function deleteSanpham(id) {
         <!-- demo app -->
         <script src="../Adminassets/js/pages/demo.dashboard-crm.js"></script>
         <!-- end demo js-->
-</form>
     </body>
 </html>
 
 
   
-
-
 
 
 

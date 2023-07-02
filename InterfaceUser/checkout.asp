@@ -77,31 +77,54 @@ Dim Sum
 Sum = total_Sum+temp12
 	' Kiểm tra nếu có yêu cầu POST từ form
 	If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
-	    ' Lấy thông tin từ form
-	    Dim firstname, lastname, address, email, phone, password
-
-	    firstname = Request.Form("firstname")
-	    lastname = Request.Form("lastname")
-	    address = Request.Form("address")
-	    email = Request.Form("email")
-	    phone = Request.Form("phone")
-	    password = Request.Form("password")
+    Dim paymentMethod, luyChoNguoiBan , phone
+	 ' Lấy thông tin từ form
+    paymentMethod = Request.Form("paymentMethod")
+    luyChoNguoiBan = Request.Form("luuychonguoiban")
+    phone = Request.Form("phone")
+Response.Write(paymentMethod)
 	    ' Kiểm tra xem có nhập đủ thông tin hay không
-	    If firstname <> "" And lastname <> "" And address <> "" And email <> "" And phone <> "" And password <> "" Then
-	        If password = userPassword Then
-	            ' Câu truy vấn UPDATE dữ liệu vào bảng userdetails
+	    If paymentMethod <> "" And luyChoNguoiBan <> "" And phone <> ""  Then
+            
+			'Lay thông tin từ bảng productcarrt là danh sách các sản phẩm có trong bill'
+            
+			' Lấy ngày và giờ hiện tại
+            Dim currentDate
+            currentDate = Date()
+
+            ' Lấy giờ hiện tại
+            Dim currentTime
+            currentTime = Time()
+
+            ' Chuyển định dạng ngày và giờ thành chuỗi phù hợp với cú pháp SQL
+            Dim formattedDateTime
+            formattedDateTime = FormatDateTime(currentDate, vbShortDate) & " " & FormatDateTime(currentTime, vbShortTime)
+            
+			' Chuyển đổi giá trị trạng thái thành kiểu bit
+            Dim statusBit
+            If paymentMethod = "tienmat" Then
+                statusBit = 0
+            Else
+                 statusBit = 1
+            End If
+	         '' Thêm thông tin vào bảng 'bill'
+                sqlBill = "INSERT INTO bill (userid, datetime, total, status, cartid, totalship,shipbillprice) VALUES (" & userID & ",'" & formattedDateTime & "', " & total_Sum & ", " & statusBit & ", " & cartid & " , " & Sum & ", " & temp12 & ")"
+                conn.Execute(sqlBill)
+				
+	            ' Ctruy vấn xóa bản ghi trong giỏ hàng
+				Dim deleteProductCartQuery
+                deleteProductCartQuery = "DELETE FROM productcart"
+                conn.Execute deleteProductCartQuery
 	           
-				Dim sqlUpdate
-                sqlUpdate = "UPDATE userdetails SET firstname = N'" & firstname & "', lastname = N'" & lastname & "', address = N'" & address & "', email = '" & email & "', phone = '" & phone & "' WHERE userid = " & userID
+				'Dim sqlUpdate
+              ''  sqlUpdate = "UPDATE userdetails SET firstname = N'" & firstname & "', lastname = N'" & lastname & "', address = N'" & address & "', email = '" & email & "', phone = '" & phone & "' WHERE userid = " & userID
 
 	            ' Thực thi câu truy vấn UPDATE
-	            conn.Execute sqlUpdate
+	           '' conn.Execute sqlUpdate
 
 	            ' Chuyển hướng trở lại trang danh sách products với thông báo thành công
-	            Response.Redirect "myaccount.asp?success=1"
-	        Else
-	            Response.Write "<div class=""error"">Bạn đã nhập Sai mật khẩu!.</div>"
-	        End If
+	            Response.Redirect "homepage.asp?success=1"
+	        
 	    Else
 	        ' Hiển thị thông báo lỗi nếu thông tin không hợp lệ
 	        Response.Write "<div class=""error"">Vui lòng điền đầy đủ thông tin.</div>"
@@ -389,14 +412,14 @@ select option {
 							<div class="form-group">
 								<label for="paymentMethod">Phương thức thanh toán:</label>
                             <select id="paymentMethod" name="paymentMethod">
-                                 <option value="cash">Tiền mặt</option>
-                                <option value="creditCard">Thẻ tín dụng</option>
-                                <option value="bankTransfer">Chuyển khoản ngân hàng</option>
+                                 <option value="tienmat">Tiền mặt</option>
+                                <option value="thetindung">Thẻ tín dụng</option>
+                                <option value="chuyenkhoannganhang">Chuyển khoản ngân hàng</option>
                             </select>
 							</div>
 
 							<div class="form-group">
-								<input class="input" type="text" id="firstname" name="firstname" placeholder="Lưu ý cho người bán:" required>
+								<input class="input" type="text" id="luuychonguoiban" name="luuychonguoiban" placeholder="Lưu ý cho người bán:" required>
 							</div>
 							
 							<div class="form-group">
@@ -421,7 +444,7 @@ select option {
 							</div>
 
 							<div class="form-group">
-								<input class="input" type="text" id="phone" name="phone" placeholder="Phone" required>
+								<input class="input" type="text" id="phone" name="phone" placeholder="Số Điện Thoại cố định nhận hàng:" required>
 							</div>
 							<p>Nhấn "Thanh Toán" đồng nghĩa với việc bạn đồng ý tuân theo điều khoản sử dụng.</p>
 							<div class="form-group">

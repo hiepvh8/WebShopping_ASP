@@ -53,26 +53,7 @@
 
                         <li class="side-nav-title side-nav-item">Navigation</li>
 
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
-                                <i class="uil-window"></i>
-                                <span> Thống Kê </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarLayouts">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="thongkechitiet.asp"> Thống Kê Chi Tiết</a>
-                                    </li>
-                                    <li>
-                                        <a href="caidatthanhtoan.asp"> Cài Đặt Thanh Toán</a>
-                                    </li>
-                                    <li>
-                                        <a href="doanhthu.asp"> Doanh Thu</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                        
 
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
@@ -131,43 +112,6 @@
                                     <li>
                                         <a href="themsanpham.asp"> Thiết Lập Khách Hàng</a>
                                     </li>
-                                    
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks" class="side-nav-link">
-                                <i class="uil-clipboard-alt"></i>
-                                <span> Quản Lý Hệ Thống </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarTasks">
-                                <ul class="side-nav-second-level">
-                                   <li>
-                                    <a href="thietlaptaikhoan.asp"> Thiết Lập Tài Khoản</a>
-                                    </li>
-                                    <li>
-                                        <a href="thietlapdiachi.asp"> Thiết Lập Địa Chỉ</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
-                                <i class="uil-copy-alt"></i>
-                                <span>  Chăm Sóc KH </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarPages">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="trolychat.asp"> Trợ Lý - Chat</a>
-                                    </li>
-                                    <li>
-                                        <a href="thietlaptaikhoan.asp"> </a>
-                                    </li>   
                                     
                                 </ul>
                             </div>
@@ -423,55 +367,71 @@
                     <div 
                     id="right-body" class="container-fluid">
                         
-                      <div class="row">
+                       <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Quản Lý Đơn Hàng</a></li>
-                    <li class="breadcrumb-item active">Danh Sách Đơn Hàng</li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">AdminStaff</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Quản Lý Sản Phẩm</a></li>
+                    <li class="breadcrumb-item active">Danh Sách Sản Phẩm</li>
                 </ol>
             </div>
-            <h4 class="page-title">Danh Sách Đơn Hàng</h4>
+            <h4 class="page-title">Danh Sách Sản Phẩm</h4>
         </div>
     </div>
-</div>  
-<table id="body1" class="table table-hover table-centered mb-0">
+</div> 
+
+<%
+' Kết nối đến cơ sở dữ liệu và truy vấn thông tin người dùng
+Set conn = Server.CreateObject("ADODB.Connection")
+connStr = "Provider=SQLOLEDB;Data Source=VUHOANGHIEP;Initial Catalog=WebShopping;User ID=sa;Password=Zmxncbv2002"
+conn.Open connStr
+
+Set rs = conn.Execute("SELECT * FROM products")
+
+' Kiểm tra tham số success trong URL để hiển thị thông báo thành công
+Dim success
+success = Request.QueryString("success")
+%>
+
+
+
+<% If success = "1" Then %>
+        <div class="success">Thành Công</div>
+    <% End If %> 
+
+<table class="table table-striped table-centered mb-0">
     <thead>
         <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Amount</th>
+            <th>productname</th>
+            <th>fisrtday</th>
+            <th>price</th>
+            <th>introduce</th>
+            <th>discount</th>
+            <th>Action</th>
+            
         </tr>
     </thead>
-    <tbody>
-        <tr>
-            <td>ASOS Ridley High Waist</td>
-            <td>$79.49</td>
-            <td><span class="badge bg-primary">82 Pcs</span></td>
-            <td>$6,518.18</td>
-        </tr>
-        <tr>
-            <td>Marco Lightweight Shirt</td>
-            <td>$128.50</td>
-            <td><span class="badge bg-primary">37 Pcs</span></td>
-            <td>$4,754.50</td>
-        </tr>
-        <tr>
-            <td>Half Sleeve Shirt</td>
-            <td>$39.99</td>
-            <td><span class="badge bg-primary">64 Pcs</span></td>
-            <td>$2,559.36</td>
-        </tr>
-        <tr>
-            <td>Lightweight Jacket</td>
-            <td>$20.00</td>
-            <td><span class="badge bg-primary">184 Pcs</span></td>
-            <td>$3,680.00</td>
-        </tr>
-    </tbody>
+    <% Do Until rs.EOF %>
+            <tr>
+                <td class="table-user"><%= rs("productname") %></td>
+                <td class="table-user"><%= rs("fisrtday") %></td>
+                <td class="table-user"><%= rs("price") %></td>
+                <td class="table-user"><%= rs("introduce") %></td>
+                <td class="table-user"><%= rs("discount") %></td>
+                <td class="table-action">
+                     <button class="edit-btn" onclick="editSanpham('<%= rs("id") %>')">Edit</button>
+                    <button class="delete-btn" onclick="deleteSanpham('<%= rs("id") %>')">Delete</button>
+                </td>
+            </tr>
+            <% rs.MoveNext
+        Loop
+        rs.Close
+        Set rs = Nothing
+        conn.Close
+        Set conn = Nothing
+        %>
 </table>
 
                     </div> <!-- container -->
@@ -634,9 +594,6 @@ function deleteSanpham(id) {
 
 
   
-
-
-
 
 
 

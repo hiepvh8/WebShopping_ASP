@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>CRM Dashboard | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+        <title>Admin1</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
         <meta content="Coderthemes" name="author">
@@ -53,61 +53,85 @@
 
                         <li class="side-nav-title side-nav-item">Navigation</li>
 
+                        
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
+                                <i class="uil-store"></i>
+                                <span> Quản Lý Đơn Hàng </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarEcommerce">
+                                <ul class="side-nav-second-level">
+                                    <li>
+                                        <a href="danhsachdonhang.asp"> Danh Sách Đơn Hàng</a>
+                                    </li>
+                                    <li>
+                                        <a href="donhuy.asp"> Đơn Hủy</a>
+                                    </li>
+                                    <li>
+                                        <a href="trahanghoantien.asp"> Trả Hàng Hoàn Tiền</a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
+                                <i class="uil-briefcase"></i>
+                                <span> Quản Lý Sản Phẩm </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarProjects">
+                                <ul class="side-nav-second-level">
+                                    <li>
+                                        <a href="danhsachsanpham.asp"> Danh Sách Sản Phẩm</a>
+
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="themsanpham.asp"> Thêm Sản Phẩm</a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
+                                <i class="uil-box"></i>
+                                <span> Quản Lý Khách Hàng  </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarBaseUI">
+                                <ul class="side-nav-second-level">
+                                    <li>
+                                        <a href="danhsachkhachhang.asp"> Danh Sách Khách Hàng</a>
+                                    </li>
+                                    <li>
+                                        <a href="themsanpham.asp"> Thiết Lập Khách Hàng</a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+
+                       
+
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
                                 <i class="uil-window"></i>
-                                <span> Thống Kê </span>
+                                <span> Vận Chuyển </span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <div class="collapse" id="sidebarLayouts">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="thongkechitiet.asp"> Thống Kê Chi Tiết</a>
+                                        <a href="quanlyvanchuyen.asp"> Quản Lý Vận Chuyển</a>
                                     </li>
-                                    <li>
-                                        <a href="caidatthanhtoan.asp"> Cài Đặt Thanh Toán</a>
-                                    </li>
-                                    <li>
-                                        <a href="doanhthu.asp"> Doanh Thu</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks" class="side-nav-link">
-                                <i class="uil-clipboard-alt"></i>
-                                <span> Quản Lý Hệ Thống </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarTasks">
-                                <ul class="side-nav-second-level">
-                                   <li>
-                                    <a href="thietlaptaikhoan.asp"> Thiết Lập Tài Khoản</a>
-                                    </li>
-                                    <li>
-                                        <a href="thietlapdiachi.asp"> Thiết Lập Địa Chỉ</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
-                                <i class="uil-copy-alt"></i>
-                                <span>  Chăm Sóc KH </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarPages">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="trolychat.asp"> Trợ Lý - Chat</a>
-                                    </li>
-                                    <li>
-                                        <a href="thietlaptaikhoan.asp"> </a>
-                                    </li>   
-                                    
+                                    <!-- <li>
+                                        <a href="layouts-detached.html">Cài Đặt Thanh Toán</a>
+                                    </li> -->
                                 </ul>
                             </div>
                         </li>

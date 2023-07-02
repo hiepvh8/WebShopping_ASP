@@ -37,6 +37,9 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
             End If
             If rolesRS = 2 Then 
             Response.Redirect("InterfaceAdmin/admin.asp") 
+            End If
+            If rolesRS = 3 Then 
+            Response.Redirect("InterfaceAdmin1/admin1.asp") 
             ' "homepage.asp" ' Chuyển hướng đến trang homepage.asp -->
             End If
         Else
