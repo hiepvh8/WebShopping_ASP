@@ -378,7 +378,7 @@
     </div>
 </div>
                        
-                        <h1>Add Product</h1>
+    <h1>Add Product</h1>
 
     <form method="post" action="" >
         <!-- Các trường thông tin sản phẩm -->
@@ -420,7 +420,8 @@
                 </div>
             </div>
         </div> <!-- end row -->
-
+        <p>UploadFile</p>
+        <input type="file" name="arquivo" />
         <div class="row mt-4">
             <div class="col-sm-6">
                 <!-- Chọn ảnh sản phẩm -->
@@ -608,7 +609,31 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
     price = Request.Form("price")
     introduce = Request.Form("introduce")
     discount = Request.Form("discount")
-    
+     ' Lấy đối tượng File từ Request
+    Dim uploadedFile
+    Set uploadedFile = Request.Files("arquivo")
+
+     ' Kiểm tra xem có tệp tin được tải lên hay không
+        If Not uploadedFile Is Nothing And uploadedFile.Size > 0 Then
+            If Form.State = 0 Then
+
+	For each Key in Form.Texts.Keys
+		Response.Write "Elemento: " & Key & " = " & Form.Texts.Item(Key) & "<br />"
+	Next
+
+	For each Field in Form.Files.Items
+		' # Field.Filename : Nome do Arquivo que chegou.
+		' # Field.ByteArray : Dados bin�rios do arquivo, �til para subir em blobstore (MySQL).
+		Field.SaveAs Server.MapPath(".") & "\upload\" & Field.FileName
+		Response.Write "Arquivo: " & Field.FileName & " foi salvo com sucesso. <br />"
+	Next
+End If
+            Dim fileName
+            fileName = Server.MapPath("path/to/save") & "\" & uploadedFile.FileName
+            uploadedFile.SaveAs fileName
+        End If
+
+
     ' Kiểm tra xem có nhập đủ thông tin hay không
     If productname <> "" And fisrtday <> "" And price <> "" And introduce <> "" And discount <> "" Then
         ' Câu truy vấn INSERT dữ liệu vào bảng tickets

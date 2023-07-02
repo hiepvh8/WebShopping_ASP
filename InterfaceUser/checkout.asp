@@ -77,14 +77,21 @@ Dim Sum
 Sum = total_Sum+temp12
 	' Kiểm tra nếu có yêu cầu POST từ form
 	If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
-    Dim paymentMethod, luyChoNguoiBan , phone
+    Dim paymentMethod , hoten, email, address, city, country, zipcode, phone, ordernote
 	 ' Lấy thông tin từ form
+	
+	hoten = Request.Form("hoten")
+	email = Request.Form("email")
+	address = Request.Form("address")
+	city = Request.Form("city")
+	country = Request.Form("country")
+	zipcode = Request.Form("zipcode")
+	phone = Request.Form("phone")
+	ordernote = Request.Form("ordernote")
     paymentMethod = Request.Form("paymentMethod")
-    luyChoNguoiBan = Request.Form("luuychonguoiban")
-    phone = Request.Form("phone")
-Response.Write(paymentMethod)
+
 	    ' Kiểm tra xem có nhập đủ thông tin hay không
-	    If paymentMethod <> "" And luyChoNguoiBan <> "" And phone <> ""  Then
+	    If hoten <> "" And  email <> "" And  address <> "" And  city <> "" And  country <> "" And  zipcode <> "" And phone <> ""  And paymentMethod <> ""   Then
             
 			'Lay thông tin từ bảng productcarrt là danh sách các sản phẩm có trong bill'
             
@@ -404,11 +411,104 @@ select option {
 
 					<div class="col-md-7">
 						<!-- Billing Details -->
-                        <!-- ======================= -->
-                        
-						<!-- ======================= -->
-                        
 						<div class="billing-details">
+							<div class="section-title">
+								<h3 class="title">Nhập Thông Tin Cá Nhân</h3>
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="hoten" placeholder="Họ Tên">
+							</div>
+							<div class="form-group">
+								<input class="input" type="email" name="email" placeholder="Email">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="address" placeholder="Address">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="city" placeholder="City">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="country" placeholder="Country">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="zipcode" placeholder="Zip-Code">
+							</div>
+							<div class="form-group">
+								<input class="input" type="phone" name="phone" placeholder="Phone">
+							</div>
+							
+						</div>
+						<!-- /Billing Details -->
+                        <!-- Order notes -->
+						<div class="order-notes">
+							<textarea class="input"  name="ordernote" placeholder="Order Notes"></textarea>
+						</div>
+						<!-- /Order notes -->
+					</div>
+
+					
+                    <!-- Order Details -->
+					<div class="col-md-5 order-details">
+						<div class="section-title text-center">
+							<h3 class="title">Đơn Hàng</h3>
+						</div>
+						<div class="order-summary">
+							<div class="order-col">
+								<div><strong>PRODUCT</strong></div>
+								<div><strong>TOTAL</strong></div>
+							</div>
+							<%
+' Kết nối đến cơ sở dữ liệu và truy vấn thông tin người dùng
+
+
+Set rsr = conn.Execute("SELECT * FROM products")
+
+' Kiểm tra tham số success trong URL để hiển thị thông báo thành công
+Dim successe
+successe = Request.QueryString("successe")
+%>
+
+
+
+<% If successe = "1" Then %>
+        <div class="successe">Thành Công</div>
+    <% End If %> 
+
+    <% Do Until rsr.EOF %>
+                            <div class="order-col">
+								<div>Tên Sản Phẩm :</div>
+								<div><strong><%= rsr("productname") %></strong></div>
+							</div>
+							<div class="order-col">
+								<div>Giá Sản Phẩm :</div>
+								<div><strong><%= rsr("price") %></></strong></div>
+							</div>
+                   
+            <%
+             rsr.MoveNext
+        Loop
+        rsr.Close
+        Set rsr = Nothing
+        %>
+
+							<div class="order-col">
+								<div>Shiping</div>
+								<div><strong>FREE</strong></div>
+							</div>
+							<div class="order-col">
+								<div><strong>Tiền đơn hàng: </strong></div>
+								<div><strong class="order-total">  <%=total_Sum %></strong></div>
+							</div>
+                            <div class="order-col">
+								<div><strong>Tiền Ship: </strong></div>
+								<div><strong class="order-total">  <%=rs1("priceship") %></strong></div>
+							</div>
+							<div class="order-col">
+								<div><strong>Tổng Tiền Thanh Toán: </strong></div>
+								<div><strong class="order-total">  <%=Sum %></strong></div>
+							</div>
+						</div>
+						<div class="payment-method">
 							<div class="form-group">
 								<label for="paymentMethod">Phương thức thanh toán:</label>
                             <select id="paymentMethod" name="paymentMethod">
@@ -417,107 +517,15 @@ select option {
                                 <option value="chuyenkhoannganhang">Chuyển khoản ngân hàng</option>
                             </select>
 							</div>
-
-							<div class="form-group">
-								<input class="input" type="text" id="luuychonguoiban" name="luuychonguoiban" placeholder="Lưu ý cho người bán:" required>
-							</div>
-							
-							<div class="form-group">
-								<div class="order-total">
-                                    <label>Tiền đơn hàng:     <%=total_Sum %></label>
-                                    <span id="orderTotal"></span>
-                                </div>
-							</div>
-
-							<div class="form-group">
-							<div class="shipping-fee">
-                                <label>Phí vận chuyển: <%=rs1("priceship") %></label>
-                                <span id="shippingFee"></span>
-                            </div>
-							</div>
-
-							<div class="form-group">
-								<div class="order-total">
-                                    <label>Tổng tiền đơn hàng: <%=Sum %></label>
-                                    <span id="orderTotal"></span>
-                                </div>
-							</div>
-
-							<div class="form-group">
-								<input class="input" type="text" id="phone" name="phone" placeholder="Số Điện Thoại cố định nhận hàng:" required>
-							</div>
-							<p>Nhấn "Thanh Toán" đồng nghĩa với việc bạn đồng ý tuân theo điều khoản sử dụng.</p>
-							<div class="form-group">
-								<div class="input-checkbox">
-									
-									<div class="caption">
-										<!-- <p>Nhấn "Thanh Toán" đồng nghĩa với việc bạn đồng ý tuân theo điều khoản sử dụng.</p> -->
-										<!-- <input class="input" type="password" id="password" name="password" placeholder="Enter Your Password" required> -->
-									</div>
-								</div>
-							</div>
-							<!-- ================================ -->
-							<!-- <a href="#" class="primary-btn order-submit">Cập Nhật</a> -->
-							<input class="primary-btn order-submit" type="submit" value="Thanh Toán">
 						</div>
 						
-						<!-- /Billing Details -->
-
+						<input class="primary-btn order-submit" type="submit" value="Thanh Toán">
 					</div>
-
-					<!-- Order Details -->
-					<div class="col-md-5 order-details">
-						<div class="section-title text-center">
-							<h3 class="title">Thông Tin Mặc Định</h3>
-						</div>
-						
-						<div class="order-summary">
-							<!-- <div class="order-col">
-								<div><strong>PRODUCT</strong></div>
-								<div><strong>TOTAL</strong></div>
-							</div> -->
-							<div class="order-products">
-								<div class="order-col">
-									<div>Firstname:</div>
-									<div><%= rs("firstname") %></div>
-								</div>
-								<div class="order-col">
-									<div>Lastname:</div>
-									<div><%= rs("lastname") %></div>
-								</div>
-								<div class="order-col">
-									<div>Address:</div>
-									<div><%= rs("address") %></div>
-								</div>
-								<div class="order-col">
-									<div>Email:</div>
-									<div><%= rs("email") %></div>
-								</div>
-								<div class="order-col">
-									<div>Phone:</div>
-									<div><%= rs("phone") %></div>
-								</div>
-								<div class="order-col">
-									<div>Accumulation:</div>
-									<div><%= rs("accumulation") %></div>
-								</div>
-							</div>
-							<div class="order-col">
-								<div>Rank:</div>
-								<div><strong>
-                                    <%
-									
-                                        Response.Write "" & temp
-                                    %>
-								</strong></div>
-							</div>
-						</div>
-		                
-						<!-- =============== -->
-						
-					</div>
-					
 					<!-- /Order Details -->
+					<!-- ======================= -->
+                     
+
+
 				</div>
 				<!-- /row -->
 			</div>

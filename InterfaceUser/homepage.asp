@@ -482,132 +482,35 @@ Set conn = Nothing
 					</div>
 					<!-- /section title -->
 
-					<!-- Products tab & slick -->
+                <!-- Products tab & slick -->
 					<div class="col-md-12">
 						<div class="row">
 							<div class="products-tabs">
 								<!-- tab -->
 								<div id="tab1" class="tab-pane active">
 									<div class="products-slick" data-nav="#slick-nav-1">
-										
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="../Userassets/img/JBL-Go3-Black-A.jpg" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-													<span class="new">NEW</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">Loa JBL Go3</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button type="button" onclick="addToCart(64)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-												
-											</div>
-										</div>
-										<!-- /product -->
+<%
+' Kết nối tới cơ sở dữ liệu
+Dim conn
+Set conn = Server.CreateObject("ADODB.Connection")
+conn.Open "Provider=SQLOLEDB;Data Source=VUHOANGHIEP;Initial Catalog=WebShopping;User ID=sa;Password=Zmxncbv2002"
 
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="../Userassets/img/Tai nghe Apple AirPods Pro.png" alt="">
-												<div class="product-label">
-													<span class="new">NEW</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">Tai Nghe Aipord Pro</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button type="button" onclick="addToCart(65)" class="add-to-cart-btn" ><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
+' Truy vấn lấy danh sách sản phẩm
+Dim rsx
+Set rsx = conn.Execute("SELECT * FROM products")
 
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="../Userassets/img/chuot-khong-day-asus-mw201c-3.png" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">Chuột Không dây Asus</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button type="button" onclick="addToCart(66)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
+' Duyệt qua từng sản phẩm và hiển thị
 
-										<!-- product -->
-										
-										<div class="product">
-											<div class="product-img">
-												<img src="../Userassets/img/1896224739.jpeg" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">Iphone 14 Pro Max</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button type="button" onclick="addToCart(67)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
+    
+%>
+<% Do Until rsx.EOF
+
+Dim tempId
+tempId =  rsx("id") 
+TempRealId = CInt(tempId)
+Response.Write TempRealId
+%>
+            
 
 										<!-- product -->
 										<div class="product">
@@ -616,8 +519,8 @@ Set conn = Nothing
 											</div>
 											<div class="product-body">
 												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">Máy Ảnh Canon R5</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+												<h3 class="product-name"><a href="#"><%= rsx("productname") %></a></h3>
+												<h4 class="product-price"><%= rsx("price") %> <del class="product-old-price"><%= rsx("price") %></del></h4>
 												<div class="product-rating">
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
@@ -632,11 +535,21 @@ Set conn = Nothing
 												</div>
 											</div>
 											<div class="add-to-cart">
-												<button type="button" onclick="addToCart(68)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+												<button type="button" onclick="addToCart(<%= TempRealId %>)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 											</div>
 										</div>
 										<!-- /product -->
-									</div>
+
+									
+            <%
+             rsx.MoveNext
+        Loop
+        rsx.Close
+        Set rsx = Nothing
+        conn.Close
+        Set conn = Nothing
+        %>
+                            </div>
 									<div id="slick-nav-1" class="products-slick-nav"></div>
 								</div>
 								<!-- /tab -->
@@ -644,6 +557,9 @@ Set conn = Nothing
 						</div>
 					</div>
 					<!-- Products tab & slick -->
+
+
+					
 				</div>
 				<!-- /row -->
 			</div>

@@ -425,7 +425,8 @@ success = Request.QueryString("success")
                     <button class="delete-btn" onclick="deleteSanpham('<%= rs("id") %>')">Delete</button>
                 </td>
             </tr>
-            <% rs.MoveNext
+            <%
+             rs.MoveNext
         Loop
         rs.Close
         Set rs = Nothing

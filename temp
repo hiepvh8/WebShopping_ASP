@@ -1,0 +1,322 @@
+<div class="col-md-7">
+						<!-- Billing Details -->
+                        <!-- ======================= -->
+                        
+
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+						<!-- ======================= -->
+                        
+						<div class="billing-details">
+							<div class="form-group">
+								<label for="paymentMethod">Phương thức thanh toán:</label>
+                            <select id="paymentMethod" name="paymentMethod">
+                                 <option value="tienmat">Tiền mặt</option>
+                                <option value="thetindung">Thẻ tín dụng</option>
+                                <option value="chuyenkhoannganhang">Chuyển khoản ngân hàng</option>
+                            </select>
+							</div>
+
+							<div class="form-group">
+								<input class="input" type="text" id="luuychonguoiban" name="luuychonguoiban" placeholder="Lưu ý cho người bán:" required>
+							</div>
+							
+							<div class="form-group">
+								<div class="order-total">
+                                    <label>Tiền đơn hàng:     <%=total_Sum %></label>
+                                    <span id="orderTotal"></span>
+                                </div>
+							</div>
+
+							<div class="form-group">
+							<div class="shipping-fee">
+                                <label>Phí vận chuyển: <%=rs1("priceship") %></label>
+                                <span id="shippingFee"></span>
+                            </div>
+							</div>
+
+							<div class="form-group">
+								<div class="order-total">
+                                    <label>Tổng tiền đơn hàng: <%=Sum %></label>
+                                    <span id="orderTotal"></span>
+                                </div>
+							</div>
+
+							<div class="form-group">
+								<input class="input" type="text" id="phone" name="phone" placeholder="Số Điện Thoại cố định nhận hàng:" required>
+							</div>
+							<p>Nhấn "Thanh Toán" đồng nghĩa với việc bạn đồng ý tuân theo điều khoản sử dụng.</p>
+							<div class="form-group">
+								<div class="input-checkbox">
+									
+									<div class="caption">
+										<!-- <p>Nhấn "Thanh Toán" đồng nghĩa với việc bạn đồng ý tuân theo điều khoản sử dụng.</p> -->
+										<!-- <input class="input" type="password" id="password" name="password" placeholder="Enter Your Password" required> -->
+									</div>
+								</div>
+							</div>
+							<!-- ================================ -->
+							<!-- <a href="#" class="primary-btn order-submit">Cập Nhật</a> -->
+							<input class="primary-btn order-submit" type="submit" value="Thanh Toán">
+						</div>
+						
+						<!-- /Billing Details -->
+
+					</div>
+
+
+
+
+                    <div class="col-md-5 order-details">
+						<div class="section-title text-center">
+							<h3 class="title">Thông Tin Mặc Định</h3>
+						</div>
+						
+						<div class="order-summary">
+							<!-- <div class="order-col">
+								<div><strong>PRODUCT</strong></div>
+								<div><strong>TOTAL</strong></div>
+							</div> -->
+							<div class="order-products">
+								<div class="order-col">
+									<div>Firstname:</div>
+									<div><%= rs("firstname") %></div>
+								</div>
+								<div class="order-col">
+									<div>Lastname:</div>
+									<div><%= rs("lastname") %></div>
+								</div>
+								<div class="order-col">
+									<div>Address:</div>
+									<div><%= rs("address") %></div>
+								</div>
+								<div class="order-col">
+									<div>Email:</div>
+									<div><%= rs("email") %></div>
+								</div>
+								<div class="order-col">
+									<div>Phone:</div>
+									<div><%= rs("phone") %></div>
+								</div>
+								<div class="order-col">
+									<div>Accumulation:</div>
+									<div><%= rs("accumulation") %></div>
+								</div>
+							</div>
+							<div class="order-col">
+								<div>Rank:</div>
+								<div><strong>
+                                    <%
+									
+                                        Response.Write "" & temp
+                                    %>
+								</strong></div>
+							</div>
+						</div>
+		                
+						<!-- =============== -->
+						
+					</div>
+
+
+
+
+
+                    <!-- Products tab & slick -->
+					<div class="col-md-12">
+						<div class="row">
+							<div class="products-tabs">
+								<!-- tab -->
+								<div id="tab1" class="tab-pane active">
+									<div class="products-slick" data-nav="#slick-nav-1">
+										
+										<!-- product -->
+										<div class="product">
+											<div class="product-img">
+												<img src="../Userassets/img/JBL-Go3-Black-A.jpg" alt="">
+												<div class="product-label">
+													<span class="sale">-30%</span>
+													<span class="new">NEW</span>
+												</div>
+											</div>
+											<div class="product-body">
+												<p class="product-category">Category</p>
+												<h3 class="product-name"><a href="#">Loa JBL Go3</a></h3>
+												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+												<div class="product-rating">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+												<div class="product-btns">
+													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												</div>
+											</div>
+											<div class="add-to-cart">
+												<button type="button" onclick="addToCart(64)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+												
+											</div>
+										</div>
+										<!-- /product -->
+
+										<!-- product -->
+										<div class="product">
+											<div class="product-img">
+												<img src="../Userassets/img/Tai nghe Apple AirPods Pro.png" alt="">
+												<div class="product-label">
+													<span class="new">NEW</span>
+												</div>
+											</div>
+											<div class="product-body">
+												<p class="product-category">Category</p>
+												<h3 class="product-name"><a href="#">Tai Nghe Aipord Pro</a></h3>
+												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+												<div class="product-rating">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star-o"></i>
+												</div>
+												<div class="product-btns">
+													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												</div>
+											</div>
+											<div class="add-to-cart">
+												<button type="button" onclick="addToCart(65)" class="add-to-cart-btn" ><i class="fa fa-shopping-cart"></i> add to cart</button>
+											</div>
+										</div>
+										<!-- /product -->
+
+										<!-- product -->
+										<div class="product">
+											<div class="product-img">
+												<img src="../Userassets/img/chuot-khong-day-asus-mw201c-3.png" alt="">
+												<div class="product-label">
+													<span class="sale">-30%</span>
+												</div>
+											</div>
+											<div class="product-body">
+												<p class="product-category">Category</p>
+												<h3 class="product-name"><a href="#">Chuột Không dây Asus</a></h3>
+												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+												<div class="product-rating">
+												</div>
+												<div class="product-btns">
+													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												</div>
+											</div>
+											<div class="add-to-cart">
+												<button type="button" onclick="addToCart(66)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+											</div>
+										</div>
+										<!-- /product -->
+
+										<!-- product -->
+										
+										<div class="product">
+											<div class="product-img">
+												<img src="../Userassets/img/1896224739.jpeg" alt="">
+											</div>
+											<div class="product-body">
+												<p class="product-category">Category</p>
+												<h3 class="product-name"><a href="#">Iphone 14 Pro Max</a></h3>
+												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+												<div class="product-rating">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+												<div class="product-btns">
+													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												</div>
+											</div>
+											<div class="add-to-cart">
+												<button type="button" onclick="addToCart(67)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+											</div>
+										</div>
+										<!-- /product -->
+
+										<!-- product -->
+										<div class="product">
+											<div class="product-img">
+												<img src="../Userassets/img/canon-eos-r5-1.jpg" alt="">
+											</div>
+											<div class="product-body">
+												<p class="product-category">Category</p>
+												<h3 class="product-name"><a href="#">Máy Ảnh Canon R5</a></h3>
+												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+												<div class="product-rating">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+												<div class="product-btns">
+													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												</div>
+											</div>
+											<div class="add-to-cart">
+												<button type="button" onclick="addToCart(68)" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+											</div>
+										</div>
+										<!-- /product -->
+									</div>
+									<div id="slick-nav-1" class="products-slick-nav"></div>
+								</div>
+								<!-- /tab -->
+							</div>
+						</div>
+					</div>
+					<!-- Products tab & slick -->
+
+
+                    <%
+' Kết nối tới cơ sở dữ liệu
+Dim conn
+Set conn = Server.CreateObject("ADODB.Connection")
+conn.Open "Provider=SQLOLEDB;Data Source=VUHOANGHIEP;Initial Catalog=WebShopping;User ID=sa;Password=Zmxncbv2002"
+
+' Truy vấn lấy danh sách sản phẩm
+Dim rsx
+Set rsx = conn.Execute("SELECT * FROM products")
+
+' Duyệt qua từng sản phẩm và hiển thị
+Do Until rs.EOF
+    Dim productImage, productProductame, productPrice, productDisscount
+   '' productImage = rs("image")
+   '' productCategory = rs("category")
+    productProductame = rs("productname")
+    productPrice = rs("price")
+    productDisscount = rs("disscount")
+
+%>
